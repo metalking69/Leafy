@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/ic_home"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="Home"/>
+
+    <item
+        android:id="@+id/ic_saved"
+        android:icon="@drawable/ic_baseline_bookmarks_24"
+        android:title="Guardados"/>
+
+    <item
+        android:id="@+id/ic_new"
+        android:icon="@drawable/ic_baseline_add_circle_outline_24"
+        android:title="Crear publicación"/>
+
+    <item
+        android:id="@+id/ic_my_plants"
+        android:icon="@drawable/ic_baseline_search_24"
+        android:title="Mis plantas"/>
+
+    <item
+        android:id="@+id/ic_profile"
+        android:icon="@drawable/ic_baseline_person_24"
+        android:title="Perfil"/>
+
+</menu>
