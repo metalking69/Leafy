@@ -7,6 +7,7 @@ object DataManager {
     val usuarios = ArrayList<User>()
     val tipos_plantas = ArrayList<TiposPlantas>()
     val publicaciones = ArrayList<Publicaciones>()
+    val mis_plantas = ArrayList<MisPlantas>()
     val ejemplos = ArrayList<Example>()
     var content: Context? = null
 
@@ -14,9 +15,23 @@ object DataManager {
         this.initializeUsers()
         this.initializeTipos()
         this.initializePublicaciones()
+        this.initializeMisPlantas()
         this.initializeEjemplos()
     }
 
+    private fun initializeMisPlantas() {
+        var plant= MisPlantas(1, 1, 8)
+        mis_plantas.add(plant)
+
+        plant= MisPlantas(1, 2, 2)
+        mis_plantas.add(plant)
+
+        plant= MisPlantas(1, 3, 10)
+        mis_plantas.add(plant)
+
+        plant= MisPlantas(1, 2, 5)
+        mis_plantas.add(plant)
+    }
 
 
     private fun initializeTipos() {
@@ -48,6 +63,12 @@ object DataManager {
 
 
     private fun initializeUsers() {
+        var usr=User(1, "Carlos", "López", "demoon_12@homtail.com", "a1b2c3", null)
+        usuarios.add(usr)
+        usr=User(2, "Paola", "Sauceda", "zay98@gmail.com", "a1b2c3", null)
+        usuarios.add(usr)
+        usr=User(3, "Elizabeth", "Solis", "eliza.99@homtail.com", "a1b2c3", null)
+        usuarios.add(usr)
 
     }
 

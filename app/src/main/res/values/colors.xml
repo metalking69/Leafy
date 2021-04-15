@@ -12,5 +12,7 @@
     <color name="leafy_letras_hint">#BB33B287</color>
     <color name="leafy_letras_oscuro">#2B9773</color>
     <color name="navbar">#FFB5F7E1</color>
+    <color name="verdeBarra">#2BD162</color>
+    <color name="verdeBarra2">#23C458</color>
 
 </resources>

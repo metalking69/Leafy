@@ -74,6 +74,7 @@ class RegistroActivity: AppCompatActivity() {
             var boolDo: Boolean = false
             if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) ==
                     PackageManager.PERMISSION_DENIED
+
             ) {
                 //permission denied
                 val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)

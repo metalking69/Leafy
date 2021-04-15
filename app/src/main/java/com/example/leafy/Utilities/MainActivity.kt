@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, androidx.appcomp
     var crearFragment:Fragment = FragmentNew()
     var plantasFragment:Fragment = FragmentMisPlantas()
     var perfilFragment:Fragment = FragmentPerfil()*/
-
+    var labelMain: TextView?=null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,14 +46,40 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, androidx.appcomp
         val search=findViewById(R.id.idSearchV) as SearchView
         search.setOnClickListener(this)
 
+        labelMain=findViewById(R.id.textView10) as TextView
 
         nav.setOnNavigationItemSelectedListener {
             when(it.itemId){
-                R.id.ic_home -> makeCurrentFragment(FragmentHome())
-                R.id.ic_saved -> makeCurrentFragment(FragmentGuardados())
-                R.id.ic_new -> makeCurrentFragment(FragmentNew())
-                R.id.ic_my_plants -> makeCurrentFragment(FragmentMisPlantas())
-                R.id.ic_profile -> makeCurrentFragment(FragmentPerfil())
+                R.id.ic_home -> {
+                    makeCurrentFragment(FragmentHome())
+
+                    var str: String= getString(R.string.app_name)
+                    labelMain?.text=str.toString()
+                }
+                R.id.ic_saved -> {
+                    makeCurrentFragment(FragmentGuardados())
+
+                    var str: String=getString(R.string.guardados)
+                    labelMain?.text=str.toString()
+                }
+                R.id.ic_new -> {
+                    makeCurrentFragment(FragmentNew())
+
+                    var str: String=getString(R.string.crear_publicacion)
+                    labelMain?.text=str.toString()
+                }
+                R.id.ic_my_plants -> {
+                    makeCurrentFragment(FragmentMisPlantas())
+
+                    var str: String=getString(R.string.mis_plantas)
+                    labelMain?.text=str.toString()
+                }
+                R.id.ic_profile -> {
+                    makeCurrentFragment(FragmentPerfil())
+
+                    var str: String=getString(R.string.mi_perfil)
+                    labelMain?.text=str.toString()
+                }
             }
             true
         }

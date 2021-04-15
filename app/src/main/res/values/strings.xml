@@ -9,6 +9,14 @@
     <string name="contraseña">Contraseña</string>
     <string name="repetir_contraseña">Repetir Contraseña</string>
 
+    <string name="guardados">Guardados</string>
+    <string name="crear_publicacion">Crear Publicación</string>
+    <string name="mis_plantas">Mis Plantas</string>
+    <string name="mi_perfil">Mi Perfil</string>
+    <string name="editar_perfil">Editar Perfil</string>
+    <string name="guardar_cambios">Guardar los cambios</string>
+    <string name="mis_publicaciones">Mis Publicaciones</string>
+
     <string name="registro">Registro</string>
     <string name="registro_subrayado"><u>Registro</u></string>
     <string name="registrar">Registrar</string>
@@ -18,6 +26,13 @@
     <string name="ejemplo_contraseña_hint">8 letras mínimo, A-z, 0-9</string>
     <string name="repetir_contraseña_hint">Volver a escribir la misma contraseña</string>
     <string name="algo_hint">Algo</string>
+
+    <string name="titulo">Título</string>
+    <string name="descripcion">Descripción</string>
+    <string name="tipo_de_planta">Tipo de planta</string>
+    <string name="borrador">Borrador</string>
+    <string name="publicar">Publicar</string>
+    <string name="ingrese_titulo">Ingrese un título</string>
 
     <string name="Cambiar_imagen"><u>Cambiar Imagen</u>.</string>
 
