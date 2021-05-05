@@ -15,9 +15,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.example.leafy.CAMERA_CODE
+import com.example.leafy.Data.*
+import com.example.leafy.Data.SetDB.Companion.USER_ID
 import com.example.leafy.IMAGE_PICK_CODE
 import com.example.leafy.PERMISSION_CODE
 import com.example.leafy.R
+import com.example.leafy.Utilities.ShowHideInterface
+import com.example.leafy.Utilities.UserApplication
+import com.google.android.material.textfield.TextInputEditText
 import java.io.ByteArrayOutputStream
 
 // TODO: Rename parameter arguments, choose names that match
@@ -30,18 +35,26 @@ private const val ARG_PARAM2 = "param2"
  * Use the [FragmentNew.newInstance] factory method to
  * create an instance of this fragment.
  */
-class FragmentNew : Fragment() {
+class FragmentNew : Fragment(), ShowHideInterface, View.OnClickListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
+    var search: SearchView?=null
+    var combobox: Spinner?=null
+    var btnS1: ImageButton?=null
+    var btnS2: ImageButton?=null
+    var btnAdd: ImageButton?=null
+
     private var viewFr: View?=null
     private var numImagen: Int?= null
 
-    var btnSave1: ImageButton?=null
-    var btnSave2: ImageButton?=null
-    var btnSave3: ImageButton?=null
+    var btnImg1: ImageButton?=null
+    var btnImg2: ImageButton?=null
+    var btnImg3: ImageButton?=null
 
+    var btnSaveBorrador: Button?= null
+    var btnSavePublicacion: Button?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,9 +71,13 @@ class FragmentNew : Fragment() {
         // Inflate the layout for this fragment
         viewFr=inflater.inflate(R.layout.fragment_new, container, false)
 
-        btnSave1=viewFr?.findViewById(R.id.imageButton3)
-        btnSave2=viewFr?.findViewById(R.id.imageButton5)
-        btnSave3=viewFr?.findViewById(R.id.imageButton6)
+        btnImg1=viewFr?.findViewById(R.id.imageButton3)
+        btnImg2=viewFr?.findViewById(R.id.imageButton5)
+        btnImg3=viewFr?.findViewById(R.id.imageButton6)
+        btnSaveBorrador=viewFr?.findViewById(R.id.button4)
+        btnSavePublicacion=viewFr?.findViewById(R.id.button6)
+        btnSaveBorrador?.setOnClickListener(this)
+        btnSavePublicacion?.setOnClickListener(this)
         //var img1: ImageButton= v.findViewById(R.id.imageButton3)
 
         val btnPopup= viewFr?.findViewById<ImageButton>(R.id.imageButton3)
@@ -153,6 +170,17 @@ class FragmentNew : Fragment() {
         btnPopup3?.setOnClickListener{
             popupMenu3.show()
         }
+
+        btnAdd = activity?.findViewById(R.id.imageButton9) as ImageButton
+        btnS1 = activity?.findViewById(R.id.imageButton13) as ImageButton
+        btnS2 = activity?.findViewById(R.id.imageButton14) as ImageButton
+        search = activity?.findViewById(R.id.idSearchV) as SearchView
+        combobox = activity?.findViewById(R.id.spinner4) as Spinner
+
+        val combobox2 = viewFr?.findViewById(R.id.spinner3) as Spinner
+        val adapterTipos =
+                ArrayAdapter<TiposPlantas>(context!!, android.R.layout.simple_spinner_dropdown_item, DataManager.tipos_plantas)
+        combobox2!!.adapter=adapterTipos
 
         return viewFr
     }
@@ -254,15 +282,15 @@ class FragmentNew : Fragment() {
                 //albumEdit.imgArray = stream.toByteArray()
 
                 if(numImagen==1){
-                    btnSave2?.isEnabled = true
-                    btnSave2?.isClickable = true
-                    btnSave2?.visibility= View.VISIBLE
+                    btnImg2?.isEnabled = true
+                    btnImg2?.isClickable = true
+                    btnImg2?.visibility= View.VISIBLE
 
                 }
                 else if(numImagen==2){
-                    btnSave3?.isEnabled = true
-                    btnSave3?.isClickable = true
-                    btnSave3?.visibility= View.VISIBLE
+                    btnImg3?.isEnabled = true
+                    btnImg3?.isClickable = true
+                    btnImg3?.visibility= View.VISIBLE
                 }
 
                 imgViewPic!!.setImageBitmap(photo)
@@ -277,14 +305,14 @@ class FragmentNew : Fragment() {
                 //albumEdit.imgArray = baos.toByteArray()
 
                 if(numImagen==1){
-                    btnSave2?.isEnabled = true
-                    btnSave2?.isClickable = true
-                    btnSave2?.visibility= View.VISIBLE
+                    btnImg2?.isEnabled = true
+                    btnImg2?.isClickable = true
+                    btnImg2?.visibility= View.VISIBLE
                 }
                 else if(numImagen==2){
-                    btnSave3?.isEnabled = true
-                    btnSave3?.isClickable = true
-                    btnSave3?.visibility= View.VISIBLE
+                    btnImg3?.isEnabled = true
+                    btnImg3?.isClickable = true
+                    btnImg3?.visibility= View.VISIBLE
                 }
 
                 imgViewPic!!.setImageBitmap(bitmap)
@@ -318,4 +346,95 @@ class FragmentNew : Fragment() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+
+        Hide5(search!!, combobox!!, btnAdd!!, btnS1!!, btnS2!!)
+
+    }
+
+    override fun onClick(v: View?) {
+        when(v!!.id){
+
+            R.id.button4->this.savePublication(1)
+            R.id.button6->this.savePublication(2)
+        }
+    }
+
+    private fun savePublication(opc: Int) {
+
+
+        //user =  DataManager.usuarios[DataManager.usuarios.lastIndexOf(DataManager.usuarios)]
+
+        var titulo=  viewFr!!.findViewById<EditText>(R.id.editTextTextEmailAddress2)
+        var descripcion= viewFr!!.findViewById<TextInputEditText>(R.id.textInputEditText)
+        var id= 1
+        var tipo= viewFr!!.findViewById<Spinner>(R.id.spinner3)
+        var estado: Boolean=false
+        var imgView1= viewFr!!.findViewById<ImageView>(R.id.imageView5)
+        var imgView2= viewFr!!.findViewById<ImageView>(R.id.imageView6)
+        var imgView3= viewFr!!.findViewById<ImageView>(R.id.imageView7)
+
+        if(imgView1.getDrawable() == null || titulo.text.isEmpty() || titulo.text.isNullOrBlank() ||
+                descripcion.text?.isEmpty()!! ||  descripcion.text?.isNullOrBlank()!! ){
+            Toast.makeText(this.context, "Ingrese todos los datos por favor", Toast.LENGTH_SHORT).show()
+        }
+        else{
+            if(opc==1){
+                estado = false
+            }
+            else{
+                estado = true
+            }
+            var pub: Publicaciones =  Publicaciones()
+            pub.titulo = titulo.text.toString()
+            pub.descripcion =  descripcion.text.toString()
+            pub.tipo = tipo.selectedItem as TiposPlantas
+            pub.estado =  estado
+            //pub.id = DataManager.publicaciones.lastIndexOf(DataManager.publicaciones)+1
+            pub.idCreador = USER_ID
+
+            var count = 1
+            if(imgView2.getDrawable() != null && imgView3.getDrawable() != null)
+                count=3
+            else if(imgView2.getDrawable() != null)
+                count=2
+            var idCreated = UserApplication.dbHelper.insertPublication(pub).toInt()
+            for(i in 1..count){
+                if(i==1)
+                    saveImages(imgView1, idCreated)
+                else if(i==2)
+                    saveImages(imgView2, idCreated)
+                else if(i==3)
+                    saveImages(imgView3, idCreated)
+                Toast.makeText(this.context, "imagen guardada", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+
+
+
+
+
+
+        /*
+
+
+
+        */
+
+        //UserApplication.dbHelper.insertUser(user)
+    }
+
+    private fun saveImages(imageV: ImageView, id: Int){
+        var imgPub: ImagenesPublicaciones =  ImagenesPublicaciones()
+        val bitmap = (imageV.getDrawable() as BitmapDrawable).bitmap
+        val baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        imgPub.imgArray = baos.toByteArray()
+        //imgPub.id = DataManager.imagenesPublicaciones.lastIndexOf(DataManager.imagenesPublicaciones)+1
+        imgPub.idPublicacion=id
+
+        UserApplication.dbHelper.insertImagePublication(imgPub)
+    }
 }

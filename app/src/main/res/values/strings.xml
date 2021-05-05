@@ -32,9 +32,16 @@
     <string name="tipo_de_planta">Tipo de planta</string>
     <string name="borrador">Borrador</string>
     <string name="publicar">Publicar</string>
+    <string name="publicado">Publicado</string>
     <string name="ingrese_titulo">Ingrese un título</string>
 
     <string name="Cambiar_imagen"><u>Cambiar Imagen</u>.</string>
+    <string name="subir_imagen"><u>Subir Imagen</u>.</string>
+    <string name="Horario_planta">Horario para regar planta</string>
+    <string name="guardar">Guardar</string>
+    <string name="agregar_planta">Agregar Planta</string>
+
+    <string name="Nombre_del_autor"><u>Nombre del Autor</u>.</string>
 
     <string name="Permission_denied">Permission denied</string>
     <!-- TODO: Remove or change this placeholder text -->

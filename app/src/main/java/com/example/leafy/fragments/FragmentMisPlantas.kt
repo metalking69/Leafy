@@ -5,12 +5,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.SearchView
+import android.widget.Spinner
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.leafy.Data.DataManager
 import com.example.leafy.R
 import com.example.leafy.Utilities.MisPlantasRecyclerAdapter
 import com.example.leafy.Utilities.PublicacionRecyclerAdapter
+import com.example.leafy.Utilities.ShowHideInterface
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,10 +26,16 @@ private const val ARG_PARAM2 = "param2"
  * Use the [FragmentMisPlantas.newInstance] factory method to
  * create an instance of this fragment.
  */
-class FragmentMisPlantas : Fragment() {
+class FragmentMisPlantas : Fragment(), ShowHideInterface {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
+    var search: SearchView?=null
+    var combobox: Spinner?=null
+    var btnS1: ImageButton?=null
+    var btnS2: ImageButton?=null
+    var btnAdd: ImageButton?=null
 
     private var myRecyclerView: RecyclerView? = null
 
@@ -49,6 +59,12 @@ class FragmentMisPlantas : Fragment() {
         myRecyclerView?.layoutManager= LinearLayoutManager(activity)
         myRecyclerView?.adapter=recyclerAdapter
 
+        btnAdd = activity?.findViewById(R.id.imageButton9) as ImageButton
+        btnS1 = activity?.findViewById(R.id.imageButton13) as ImageButton
+        btnS2 = activity?.findViewById(R.id.imageButton14) as ImageButton
+        search = activity?.findViewById(R.id.idSearchV) as SearchView
+        combobox = activity?.findViewById(R.id.spinner4) as Spinner
+
         return v
     }
 
@@ -70,5 +86,12 @@ class FragmentMisPlantas : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        showAdd(search!!, combobox!!, btnAdd!!, btnS1!!, btnS2!!)
+
     }
 }

@@ -16,14 +16,14 @@ import com.example.leafy.R
 import com.example.leafy.ImageUtilities
 
 
-public class PublicacionRecyclerAdapter(val mContext: Context, var publicaciones: List<Publicaciones>):
+public class PublicacionRecyclerAdapter(val mContext: Context, var publicaciones: List<Publicaciones>, var list: ActionListenerInterface):
     RecyclerView.Adapter<PublicacionRecyclerAdapter.MyViewHolder>(), View.OnClickListener {
 
 
         var btnSave1: ImageButton?=null
         var btnSave2: ImageButton?=null
 
-
+        //private var listener: ActionListenerInterface?=null
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -38,7 +38,17 @@ public class PublicacionRecyclerAdapter(val mContext: Context, var publicaciones
         btnSave2?.setOnClickListener(this)*/
 
         vHolder.itemView.setOnClickListener(){
-            //Toast.makeText(mContext, "Test"+ vHolder.layoutPosition, Toast.LENGTH_SHORT).show()
+
+            //val activityIntent = Intent(mContext, AlbumActivity::class.java)
+            //activityIntent.putExtra(ALBUM_POSITION, this.albumPosition)
+            //mContext.startActivity(activityIntent)
+            //Toast.makeText(mContext, "Test "+ vHolder.layoutPosition, Toast.LENGTH_SHORT).show()
+
+
+            val idPlanta: Int? = vHolder.av_id?.text.toString().toIntOrNull()
+            //Toast.makeText(this.mContext, idPlanta, Toast.LENGTH_SHORT).show()
+            list.onClickFragmentButton(R.id.idFrameLayoutCard, idPlanta!!)
+        //idFrameLayoutCard
         }
         vHolder.btn_save01.setOnClickListener(){
             vHolder.btn_save01.isEnabled = false
@@ -69,7 +79,7 @@ public class PublicacionRecyclerAdapter(val mContext: Context, var publicaciones
 
 
 
-
+        holder.av_id?.setText(publicaciones.get(position).id.toString()!!)
         holder.av_titulo.setText(publicaciones.get(position).titulo)
         holder.av_descripcion.setText(publicaciones.get(position).descripcion)
 
@@ -97,6 +107,7 @@ public class PublicacionRecyclerAdapter(val mContext: Context, var publicaciones
         public val av_descripcion: TextView= itemView.findViewById(R.id.textView11)
         public val av_imagen: ImageView= itemView.findViewById(R.id.imageView3)
         public val av_perfil: ImageView= itemView.findViewById(R.id.imageView4)
+        public val av_id: TextView?= itemView.findViewById(R.id.textView16)
 
         public val btn_save01: ImageButton= itemView.findViewById(R.id.imageButton)
         public val btn_save02: ImageButton= itemView.findViewById(R.id.imageButton2)
@@ -127,5 +138,7 @@ public class PublicacionRecyclerAdapter(val mContext: Context, var publicaciones
             }
         }*/
     }
+
+
 
 }

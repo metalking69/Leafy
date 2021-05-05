@@ -1,20 +1,19 @@
 package com.example.leafy.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.fragment.app.Fragment
 import com.example.leafy.Data.DataManager
-import com.example.leafy.Data.TiposPlantas
+import com.example.leafy.Data.ImagenesPublicaciones
+import com.example.leafy.Data.Publicaciones
 import com.example.leafy.R
-import com.example.leafy.Utilities.PublicacionGuardadosRecyclerAdapter
-import com.example.leafy.Utilities.PublicacionRecyclerAdapter
 import com.example.leafy.Utilities.ShowHideInterface
-import org.w3c.dom.Text
+import com.synnapps.carouselview.CarouselView
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -23,10 +22,10 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [FragmentGuardados.newInstance] factory method to
+ * Use the [FragmentDetalles.newInstance] factory method to
  * create an instance of this fragment.
  */
-class FragmentGuardados : Fragment(), ShowHideInterface {
+class FragmentDetalles : Fragment(), ShowHideInterface {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -37,31 +36,73 @@ class FragmentGuardados : Fragment(), ShowHideInterface {
     var btnS2: ImageButton?=null
     var btnAdd: ImageButton?=null
 
-    private var myRecyclerView: RecyclerView? = null
-    //private var listExample2=ArrayList<Example>()
-
-    var btnSave1: ImageButton?= null
-    var btnSave2: ImageButton?= null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-        DataManager.content =  this.requireContext()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // Inflate the layout for this fragment
+        var v = inflater.inflate(R.layout.fragment_detalles, container, false)
 
-        val v:View=inflater.inflate(R.layout.fragment_guardados, container, false)
-        myRecyclerView = v.findViewById(R.id.rcListPublicGuardados)
-        val recyclerAdapter: PublicacionGuardadosRecyclerAdapter = PublicacionGuardadosRecyclerAdapter(requireContext(),DataManager.publicaciones )
-        myRecyclerView?.layoutManager= LinearLayoutManager(activity)
-        myRecyclerView?.adapter=recyclerAdapter
+        var bundle: Bundle?=this.arguments
+        var str1: Int?=bundle?.getInt("idPlantaDetalle")
+        //Toast.makeText(this.context, str1.toString(), Toast.LENGTH_SHORT).show()
+
+        var planta: Publicaciones? = DataManager.publicaciones.find { it.id == str1 }
+        var plantaImage=planta?.imgArray
+
+        v.findViewById<TextView>(R.id.textView18).setText(planta?.descripcion)
+
+        var imgs: ArrayList<ImagenesPublicaciones>? =null
+
+        var con1=0
+
+        val numbers = IntArray(3)
+        DataManager.imagenesPublicaciones.forEach {
+            //Toast.makeText(this.context, , Toast.LENGTH_SHORT).show()
+            if(it.idPublicacion!! == str1){
+                //Toast.makeText(this.context, "agregar", Toast.LENGTH_SHORT).show()
+                imgs?.add(it)
+                numbers.set(con1, it.idImg!!)
+                con1++
+
+            }
+        }
+
+
+        //val cantidad =con1
+
+        //Toast.makeText(this.context, cantidad.toString(), Toast.LENGTH_SHORT).show()
+
+
+        /*
+        var flores = arrayOf(
+            "girasol",
+            "gerbera",
+            "lirio"
+        )*/
+
+
+        var carouselView: CarouselView=v.findViewById(R.id.carousel)
+        carouselView.pageCount=con1
+        carouselView.setImageListener { position, imageView ->
+            imageView.setImageResource(numbers[position])
+        }
+
+        carouselView.setImageClickListener{position->
+            //Toast.makeText(this.context, flores[position], Toast.LENGTH_SHORT).show()
+        }
+
+
+        val edtTitulo = v.findViewById<TextView>(R.id.textView15)
+        edtTitulo.setText(planta?.titulo)
 
         btnAdd = activity?.findViewById(R.id.imageButton9) as ImageButton
         btnS1 = activity?.findViewById(R.id.imageButton13) as ImageButton
@@ -69,19 +110,8 @@ class FragmentGuardados : Fragment(), ShowHideInterface {
         search = activity?.findViewById(R.id.idSearchV) as SearchView
         combobox = activity?.findViewById(R.id.spinner4) as Spinner
 
-        val adapterTipos =
-                ArrayAdapter<TiposPlantas>(context!!, android.R.layout.simple_spinner_dropdown_item, DataManager.tipos_plantas)
-        combobox!!.adapter=adapterTipos
 
         return v
-
-
-    }
-
-    override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(itemView, savedInstanceState)
-
-
     }
 
     companion object {
@@ -91,12 +121,12 @@ class FragmentGuardados : Fragment(), ShowHideInterface {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment FragmentGuardados.
+         * @return A new instance of fragment FragmentDetalles.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            FragmentGuardados().apply {
+            FragmentDetalles().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
@@ -106,7 +136,8 @@ class FragmentGuardados : Fragment(), ShowHideInterface {
 
     override fun onStart() {
         super.onStart()
-        showFilterShowSearch(search!!, combobox!!, btnAdd!!, btnS1!!, btnS2!!)
+
+        showSave(search!!, combobox!!, btnS1!!, btnS2!!, btnAdd!!)
 
     }
 }
